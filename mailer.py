@@ -32,9 +32,7 @@ def send(server, type, recipient, link):
     message["Subject"] = "Accuguide - Test Email"
     message["From"] = EMAIL
     message["To"] = recipient
-    body =  f"""\
-    This is a test email from Accuguide, with the link {link}
-    """
+    body = f"This is a test email from Accuguide, with the link {link}"
     body_mime = MIMEText(body, "plain")
     message.attach(body_mime)
     server.sendmail(EMAIL, recipient, message.as_string())
