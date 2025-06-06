@@ -35,8 +35,13 @@ def send(server, type, recipient, link):
         message["To"] = recipient
         global body
         if type == "test":
-            message["Subject"] = "Accuguide - Test Email"
+            message["Subject"] = "Accuguide Support - Test Email"
             body = f"This is a test email from Accuguide, with the link {link}"
+        if type == "reset":
+            message["Subject"] = "Accuguide Support - Password Reset"
+            body = f"You are recieving this email because you requested a password reset. Click the link below to reset your password.\n{link}"
+        closing = "\n\nWarm Regards,\nAccuguide Support\nhttps://accuguide.org"
+        body += closing
         body_mime = MIMEText(body, "plain")
         message.attach(body_mime)
         server.sendmail(EMAIL, recipient, message.as_string())
