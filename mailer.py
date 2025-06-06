@@ -15,27 +15,31 @@ PORT = int(os.getenv("PORT"))
 
 context = ssl.create_default_context()
 
+
 def email(type, recipient, link):
-  try:
-    server = smtplib.SMTP(SERVER,PORT)
-    server.starttls(context=context)
-    server.login(EMAIL, TOKEN)
-    send(server, type, recipient, link)
-  except Exception as e:
-    print(e)
-  finally:
-    server.quit()
+    try:
+        server = smtplib.SMTP(SERVER, PORT)
+        server.starttls(context=context)
+        server.login(EMAIL, TOKEN)
+        send(server, type, recipient, link)
+    except Exception as e:
+        print(e)
+    finally:
+        server.quit()
+
 
 def send(server, type, recipient, link):
-  try:
-    message = MIMEMultipart("alternative")
-    message["Subject"] = "Accuguide - Test Email"
-    message["From"] = EMAIL
-    message["To"] = recipient
-    body = f"This is a test email from Accuguide, with the link {link}"
-    body_mime = MIMEText(body, "plain")
-    message.attach(body_mime)
-    server.sendmail(EMAIL, recipient, message.as_string())
-  except Exception as e:
-    print(e)
-    return None
+    try:
+        message = MIMEMultipart("alternative")
+        message["From"] = EMAIL
+        message["To"] = recipient
+        global body
+        if type == "test":
+            message["Subject"] = "Accuguide - Test Email"
+            body = f"This is a test email from Accuguide, with the link {link}"
+        body_mime = MIMEText(body, "plain")
+        message.attach(body_mime)
+        server.sendmail(EMAIL, recipient, message.as_string())
+    except Exception as e:
+        print(e)
+        return None
